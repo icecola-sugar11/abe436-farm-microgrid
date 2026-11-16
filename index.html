@@ -140,7 +140,7 @@ window.MathJax = { tex: { inlineMath: [["\\(", "\\)"]], displayMath: [["\\[", "\
       <span>Haozhe Ding</span><span>Yihang He</span><span>Guanfeng Ge</span>
     </div>
     <nav aria-label="Sections">
-      <a href="#abstract">Abstract</a><a href="#site">Site data</a><a href="#data">Data &amp; calculations</a><a href="#methodology">Methodology</a><a href="#outcomes">Expected outcomes</a><a href="#references">References</a>
+      <a href="#abstract">Abstract</a><a href="#site">Site data</a><a href="#data">Data &amp; calculations</a><a href="#methodology">Methodology</a><a href="#outcomes">Expected outcomes</a>
     </nav>
   </div>
 </header>
@@ -162,9 +162,9 @@ window.MathJax = { tex: { inlineMath: [["\\(", "\\)"]], displayMath: [["\\[", "\
     <p class="label">Project abstract</p>
     <h2>Abstract</h2>
     <div class="abstract prose">
-      <p><b>Goals and objectives.</b> This project designs a grid-connected wind–solar–battery system for a specific case-study farm: a 1,000-acre grain farm in Champaign County, IL (40.00°N, 88.20°W) on a 50/50 corn–soybean rotation, with a farmhouse, machine shop, on-farm grain storage, and a high-temperature column grain dryer. At 2024 Illinois yields (217 bu/ac corn, 64 bu/ac soybeans; USDA NASS), the farm harvests 108,500 bu of corn and 32,000 bu of soybeans. Its annual electricity demand is 39.8 MWh, with a harvest-season peak driven by a 31.7 kW dryer load. The objectives are to size the PV array, small wind turbine, and battery to meet this load at the lowest levelized cost of energy (LCOE) and the highest renewable fraction.</p>
+      <p><b>Goals and objectives.</b> This project designs a grid-connected wind–solar–battery system for a specific case-study farm: a 1,000-acre grain farm in Champaign County, IL (40.00°N, 88.20°W) on a 50/50 corn–soybean rotation, with a farmhouse, machine shop, on-farm grain storage, and a high-temperature column grain dryer. At 2024 Illinois yields (217 bu/ac corn, 64 bu/ac soybeans; <a href="https://farmdocdaily.illinois.edu/2025/04/2024-corn-and-soybean-yields.html" target="_blank" rel="noopener">USDA NASS</a>), the farm harvests 108,500 bu of corn and 32,000 bu of soybeans. Its annual electricity demand is 39.8 MWh, with a harvest-season peak driven by a 31.7 kW dryer load. The objectives are to size the PV array, small wind turbine, and battery to meet this load at the lowest levelized cost of energy (LCOE) and the highest renewable fraction.</p>
       <p><b>Significance.</b> Farms have a strongly seasonal load that most building-scale renewable studies ignore. Measured data for central Illinois show that solar and wind are complementary: solar radiation peaks in summer, while wind is strongest in winter and spring. Quantifying how this complementarity reduces storage needs can help Midwest farmers lower energy costs, cut emissions, and keep critical loads such as grain aeration running during outages.</p>
-      <p><b>Methodology.</b> Site-specific solar (Global Solar Atlas, NREL SAM) and wind data (Global Wind Atlas, Weibull analysis, wind-shear correction) are combined with a manufacturer turbine power curve and an hourly energy balance to size a lithium iron phosphate battery. PV-only, wind-only, and hybrid configurations are compared, plus an off-grid case, followed by a 25-year economic analysis.</p>
+      <p><b>Methodology.</b> Site-specific solar (<a href="https://globalsolaratlas.info" target="_blank" rel="noopener">Global Solar Atlas</a>, NREL SAM) and wind data (<a href="https://globalwindatlas.info" target="_blank" rel="noopener">Global Wind Atlas</a>, Weibull analysis, wind-shear correction) are combined with a manufacturer turbine power curve and an hourly energy balance to size a lithium iron phosphate battery. PV-only, wind-only, and hybrid configurations are compared, plus an off-grid case, followed by a 25-year economic analysis.</p>
       <p><b>Expected outcomes.</b> An hourly load profile for the farm, recommended PV, wind, and battery capacities, an equipment list, calculated capacity factors and annual energy production, and the system's economic performance, including how much the hybrid design reduces the battery size needed.</p>
     </div>
   </div>
@@ -174,24 +174,24 @@ window.MathJax = { tex: { inlineMath: [["\\(", "\\)"]], displayMath: [["\\[", "\
   <div class="wrap">
     <p class="label">Case-study farm</p>
     <h2>Site and baseline data</h2>
-    <p class="prose">Every value below comes from a published source or a calculation from one. Reference numbers in brackets match the list at the bottom of the page.</p>
+    <p class="prose">Every value below comes from a published source or a calculation from one. Each source is linked next to its value.</p>
     <div class="tbl">
       <table>
         <thead><tr><th>Item</th><th>Value</th><th>Source / calculation</th></tr></thead>
         <tbody>
           <tr><td>Farm size and rotation</td><td class="num">1,000 ac (500 corn, 500 soybeans)</td><td class="src">Case-study definition</td></tr>
-          <tr><td>2024 Illinois yields</td><td class="num">Corn 217 bu/ac · soybeans 64 bu/ac</td><td class="src">USDA NASS [1]</td></tr>
+          <tr><td>2024 Illinois yields</td><td class="num">Corn 217 bu/ac · soybeans 64 bu/ac</td><td class="src"><a href="https://farmdocdaily.illinois.edu/2025/04/2024-corn-and-soybean-yields.html" target="_blank" rel="noopener">USDA NASS 2024 yields</a></td></tr>
           <tr><td>Annual harvest</td><td class="num">108,500 bu corn · 32,000 bu soybeans</td><td class="src">Acres × yield</td></tr>
-          <tr><td>Farm business electricity</td><td class="num">31.5 MWh/yr</td><td class="src">FBFM utilities $5/ac (2023 actual) [2] ÷ 15.87 ¢/kWh [3]</td></tr>
-          <tr><td>Farmhouse electricity</td><td class="num">8.3 MWh/yr</td><td class="src">EIA Illinois average, 693 kWh/month (2024) [3]</td></tr>
+          <tr><td>Farm business electricity</td><td class="num">31.5 MWh/yr</td><td class="src"><a href="https://farmdoc.illinois.edu/assets/management/crop-budgets/actual_projected_costs_2025_v2.pdf" target="_blank" rel="noopener">FBFM utilities $5/ac (2023 actual)</a> ÷ <a href="https://www.eia.gov/electricity/sales_revenue_price/pdf/table_5a.pdf" target="_blank" rel="noopener">EIA price 15.87 ¢/kWh</a></td></tr>
+          <tr><td>Farmhouse electricity</td><td class="num">8.3 MWh/yr</td><td class="src"><a href="https://www.eia.gov/electricity/sales_revenue_price/pdf/table_5a.pdf" target="_blank" rel="noopener">EIA Illinois average, 693 kWh/month (2024)</a></td></tr>
           <tr><td><b>Total annual demand</b></td><td class="num"><b>39.8 MWh/yr</b></td><td class="src">Sum of the two rows above</td></tr>
-          <tr><td>Grain dryer load</td><td class="num">31.7 kW · ~360 h/yr · 11.5 MWh/yr</td><td class="src">42.5 hp fans + augers at 300 bu/h [4]</td></tr>
-          <tr><td>Grain aeration fans</td><td class="num">2.1 kW</td><td class="src">0.02 hp per 1,000 bu at 1/10 cfm/bu [5]</td></tr>
-          <tr><td>Site solar resource</td><td class="num">GHI 1,500.6 kWh/m²/yr · GTI(34°) 1,738.8</td><td class="src">Global Solar Atlas v2.13 [10]</td></tr>
+          <tr><td>Grain dryer load</td><td class="num">31.7 kW · ~360 h/yr · 11.5 MWh/yr</td><td class="src">42.5 hp fans + augers at 300 bu/h, <a href="https://www.extension.purdue.edu/extmedia/GQ/GQ-3.pdf" target="_blank" rel="noopener">Purdue Extension GQ-3</a></td></tr>
+          <tr><td>Grain aeration fans</td><td class="num">2.1 kW</td><td class="src">0.02 hp per 1,000 bu at 1/10 cfm/bu, <a href="https://www.nationalfarmers.com/agprofit/downloads/Aerating%20Grain%20In%20Storage.pdf" target="_blank" rel="noopener">UGA Bulletin 712</a></td></tr>
+          <tr><td>Site solar resource</td><td class="num">GHI 1,500.6 kWh/m²/yr · GTI(34°) 1,738.8</td><td class="src"><a href="https://globalsolaratlas.info" target="_blank" rel="noopener">Global Solar Atlas v2.13</a></td></tr>
           <tr><td>PV yield</td><td class="num">1,440.4 kWh/kWp/yr · CF 16.4%</td><td class="src">Global Solar Atlas PVOUT; CF = PVOUT ÷ 8,760 h</td></tr>
-          <tr><td>Site wind resource</td><td class="num">10 m 4.17 m/s · 50 m 6.05 m/s · 100 m 7.27 m/s</td><td class="src">Global Wind Atlas 4.0 [8]</td></tr>
+          <tr><td>Site wind resource</td><td class="num">10 m 4.17 m/s · 50 m 6.05 m/s · 100 m 7.27 m/s</td><td class="src"><a href="https://globalwindatlas.info" target="_blank" rel="noopener">Global Wind Atlas 4.0</a></td></tr>
           <tr><td>Wind at 30 m hub</td><td class="num">5.38 m/s · k 2.16 · A 6.07 m/s</td><td class="src">Power law α = 0.231; k fitted from mean speed and power density</td></tr>
-          <tr><td>Wind turbine output</td><td class="num">Bergey Excel 15: 34.5 MWh/yr · CF 25.2%</td><td class="src">NREL power curve [9] × Weibull, gross</td></tr>
+          <tr><td>Wind turbine output</td><td class="num">Bergey Excel 15: 34.5 MWh/yr · CF 25.2%</td><td class="src"><a href="https://nrel.github.io/turbine-models/BergeyExcel15_15.6kW_9.6.html" target="_blank" rel="noopener">NREL power curve</a> × Weibull, gross</td></tr>
         </tbody>
       </table>
     </div>
@@ -201,8 +201,8 @@ window.MathJax = { tex: { inlineMath: [["\\(", "\\)"]], displayMath: [["\\[", "\
       <svg id="season" viewBox="0 0 640 260"></svg>
     </div>
     <div class="legend">
-      <span><i style="background:var(--corn)"></i>Solar on array, kWh/m²/day (PVWatts, Champaign [6])</span>
-      <span><i style="background:var(--sky)"></i>Wind speed at 10 m, mph (ISWS Illinois average, 1991–2000 [7])</span>
+      <span><i style="background:var(--corn)"></i>Solar on array, kWh/m²/day (<a href="https://icap.sustainability.illinois.edu/files/projectupdate/10900/KAM%20bldg%20220%20solar%20array%20130kW%20PVWatts%20Calculator.pdf" target="_blank" rel="noopener">PVWatts, Champaign</a>)</span>
+      <span><i style="background:var(--sky)"></i>Wind speed at 10 m, mph (<a href="https://climate.isws.illinois.edu/statecli/wind/wind.htm" target="_blank" rel="noopener">ISWS Illinois average, 1991–2000</a>)</span>
     </div>
     <p class="prose" style="font-size:0.85rem;color:var(--muted)">Notes: the FBFM utilities line is treated as farm electricity use. Dryer heat comes from propane and is not counted as electric load. Global Wind Atlas values are for the 10% windiest part of the area around the site, and turbine output is before availability and electrical losses.</p>
   </div>
@@ -217,34 +217,34 @@ window.MathJax = { tex: { inlineMath: [["\\(", "\\)"]], displayMath: [["\\[", "\
 
     <h3>Where the data came from</h3>
     <div class="howto">
-      <div class="src-card"><span class="label">Wind · Global Wind Atlas 4.0 [8]</span>
+      <div class="src-card"><span class="label">Wind · <a href="https://globalwindatlas.info" target="_blank" rel="noopener">Global Wind Atlas 4.0</a></span>
         <ol>
           <li>Opened globalwindatlas.info and searched the site coordinates 40.00, −88.20.</li>
           <li>Placed a point marker on open farmland between Tolono and Philo.</li>
           <li>Switched the height to 10 m, 50 m and 100 m and recorded mean wind speed and mean power density at each.</li>
           <li>Read the wind roses: prevailing wind is from the south and south-southwest.</li>
         </ol></div>
-      <div class="src-card"><span class="label">Solar · Global Solar Atlas v2.13 [10]</span>
+      <div class="src-card"><span class="label">Solar · <a href="https://globalsolaratlas.info" target="_blank" rel="noopener">Global Solar Atlas v2.13</a></span>
         <ol>
           <li>Opened globalsolaratlas.info and searched 40.00, −88.20.</li>
           <li>Recorded PVOUT (specific PV output), GHI, DNI, DIF, optimum tilt (OPTA) and GTI at that tilt, all per year.</li>
-          <li>Monthly seasonality taken from a published NREL PVWatts report for Champaign, about 10 km north [6].</li>
+          <li>Monthly seasonality taken from a published <a href="https://icap.sustainability.illinois.edu/files/projectupdate/10900/KAM%20bldg%20220%20solar%20array%20130kW%20PVWatts%20Calculator.pdf" target="_blank" rel="noopener">NREL PVWatts report for Champaign</a>, about 10 km north.</li>
         </ol></div>
-      <div class="src-card"><span class="label">Farm load · extension and federal data [1]–[5]</span>
+      <div class="src-card"><span class="label">Farm load · extension and federal data</span>
         <ol>
-          <li>Yields: USDA NASS 2024 Illinois averages [1].</li>
-          <li>Farm utility cost per acre: farmdoc FBFM table for central Illinois high-productivity farmland [2].</li>
-          <li>Electricity price and household use: EIA Table 5A, Illinois 2024 [3].</li>
-          <li>Dryer power and capacity: Purdue Extension GQ-3 example dryer [4]; aeration fan power: UGA Bulletin 712 [5].</li>
+          <li>Yields: <a href="https://farmdocdaily.illinois.edu/2025/04/2024-corn-and-soybean-yields.html" target="_blank" rel="noopener">USDA NASS 2024 Illinois averages</a>.</li>
+          <li>Farm utility cost per acre: <a href="https://farmdoc.illinois.edu/assets/management/crop-budgets/actual_projected_costs_2025_v2.pdf" target="_blank" rel="noopener">farmdoc FBFM table for central Illinois high-productivity farmland</a>.</li>
+          <li>Electricity price and household use: <a href="https://www.eia.gov/electricity/sales_revenue_price/pdf/table_5a.pdf" target="_blank" rel="noopener">EIA Table 5A, Illinois 2024</a>.</li>
+          <li>Dryer power and capacity: <a href="https://www.extension.purdue.edu/extmedia/GQ/GQ-3.pdf" target="_blank" rel="noopener">Purdue Extension GQ-3</a> example dryer; aeration fan power: <a href="https://www.nationalfarmers.com/agprofit/downloads/Aerating%20Grain%20In%20Storage.pdf" target="_blank" rel="noopener">UGA Bulletin 712</a>.</li>
         </ol></div>
-      <div class="src-card"><span class="label">Equipment and cost · [9], [11]–[13]</span>
+      <div class="src-card"><span class="label">Equipment and cost</span>
         <ol>
-          <li>Turbine power curve: Bergey Excel 15 from the NREL Turbine Archive [9].</li>
-          <li>PV and battery cost: NREL/DOE Q1 2024 solar cost benchmarks [11].</li>
-          <li>Small wind cost: PNNL Distributed Wind Market Report 2024 [12].</li>
-          <li>Loan rate: USDA FSA direct farm ownership rate, November 2026 [13].</li>
+          <li>Turbine power curve: Bergey Excel 15 from the <a href="https://nrel.github.io/turbine-models/BergeyExcel15_15.6kW_9.6.html" target="_blank" rel="noopener">NREL Turbine Archive</a>.</li>
+          <li>PV and battery cost: <a href="https://nrel.gov/docs/fy25osti/92257.pdf" target="_blank" rel="noopener">NREL/DOE Q1 2024 solar cost benchmarks</a>.</li>
+          <li>Small wind cost: <a href="https://www.pnnl.gov/sites/default/files/media/file/distributed-wind-market-report-2024-edition-presentation.pdf" target="_blank" rel="noopener">PNNL Distributed Wind Market Report 2024</a>.</li>
+          <li>Loan rate: <a href="https://fsa.usda.gov/tools/informational/rates/current-fsa-loan-interest-rates" target="_blank" rel="noopener">USDA FSA direct farm ownership rate, November 2026</a>.</li>
         </ol></div>
-      <div class="src-card"><span class="label">Course methods · ABE 436 lectures [14]</span>
+      <div class="src-card"><span class="label">Course methods · ABE 436 lectures</span>
         <ol>
           <li>Lecture 1: unit conversions (1 hp = 746 W).</li>
           <li>Lectures 2–3: tilt angle rule of thumb (tilt ≈ latitude for year-round output).</li>
@@ -346,7 +346,7 @@ CF &= \frac{34{,}495}{15.6\ \text{kW} \times 8{,}760\ \text{h}} = \mathbf{25.2\%
         <div class="math">\[
 A = P\,\frac{i(1+i)^{n}}{(1+i)^{n} - 1} \qquad \text{(Lecture 16)}
 \]</div>
-        <p>With i = 6.25% (USDA FSA direct farm ownership rate, Nov. 2026) and n = 20 years:</p>
+        <p>With i = 6.25% (<a href="https://fsa.usda.gov/tools/informational/rates/current-fsa-loan-interest-rates" target="_blank" rel="noopener">USDA FSA direct farm ownership rate, Nov. 2026</a>) and n = 20 years. Installed costs: PV $3.15/W and PV + storage $5.19/W (<a href="https://nrel.gov/docs/fy25osti/92257.pdf" target="_blank" rel="noopener">NREL Q1 2024 cost benchmarks</a>); small wind $7,370/kW (<a href="https://www.pnnl.gov/sites/default/files/media/file/distributed-wind-market-report-2024-edition-presentation.pdf" target="_blank" rel="noopener">PNNL Distributed Wind Market Report 2024</a>).</p>
         <div class="math">\[
 CRF = \frac{0.0625\,(1.0625)^{20}}{(1.0625)^{20} - 1} = 0.0890
 \]</div>
@@ -427,7 +427,7 @@ P_{\text{batt}} &= 25\ \text{kWh} \times \$1{,}209/\text{kWh} \approx \$30{,}200
       </div></div>
       <div class="step"><div class="n">6</div><div class="body">
         <h3>Economic analysis and sensitivity</h3>
-        <p>Over 25 years, calculate installed cost from NREL cost benchmarks and manufacturer quotes, O&amp;M, LCOE, NPV and simple payback, using Ameren Illinois rates. Test sensitivity to electricity price, equipment cost, wind speed and load.</p>
+        <p>Over 25 years, calculate installed cost from <a href="https://nrel.gov/docs/fy25osti/92257.pdf" target="_blank" rel="noopener">NREL cost benchmarks</a> and manufacturer quotes, O&amp;M, LCOE, NPV and simple payback, using Ameren Illinois rates. Test sensitivity to electricity price, equipment cost, wind speed and load.</p>
         <div class="math">\[ LCOE = \frac{CAPEX + \sum_{t=1}^{25} \dfrac{O\&M_t}{(1+r)^t}}{\sum_{t=1}^{25} \dfrac{E_t}{(1+r)^t}} \]</div>
       </div></div>
     </div>
@@ -449,27 +449,7 @@ P_{\text{batt}} &= 25\ \text{kWh} \times \$1{,}209/\text{kWh} \approx \$30{,}200
   </div>
 </section>
 
-<section id="references">
-  <div class="wrap">
-    <h2>References</h2>
-    <ol class="refs">
-      <li>USDA NASS, 2024 Illinois corn and soybean yields (farmdoc daily, Apr. 2025). <a href="https://farmdocdaily.illinois.edu/2025/04/2024-corn-and-soybean-yields.html">farmdocdaily.illinois.edu</a></li>
-      <li>farmdoc, Actual and Projected Costs, Central Illinois High-Productivity Farmland (2025). <a href="https://farmdoc.illinois.edu/assets/management/crop-budgets/actual_projected_costs_2025_v2.pdf">farmdoc.illinois.edu</a></li>
-      <li>U.S. EIA, Electric Sales, Revenue, and Average Price, Table 5A (2024). <a href="https://www.eia.gov/electricity/sales_revenue_price/pdf/table_5a.pdf">eia.gov</a></li>
-      <li>Purdue Extension, Grain Quality Fact Sheet #3 (GQ-3). <a href="https://www.extension.purdue.edu/extmedia/GQ/GQ-3.pdf">extension.purdue.edu</a></li>
-      <li>University of Georgia Extension Bulletin 712, Aerating Grain in Storage. <a href="https://www.nationalfarmers.com/agprofit/downloads/Aerating%20Grain%20In%20Storage.pdf">nationalfarmers.com</a></li>
-      <li>NREL PVWatts report, 129.5 kW array, Champaign, IL (UIUC iCAP). <a href="https://icap.sustainability.illinois.edu/files/projectupdate/10900/KAM%20bldg%20220%20solar%20array%20130kW%20PVWatts%20Calculator.pdf">icap.sustainability.illinois.edu</a></li>
-      <li>Illinois State Water Survey, Wind Climatology of Illinois. <a href="https://climate.isws.illinois.edu/statecli/wind/wind.htm">climate.isws.illinois.edu</a></li>
-      <li>DTU / World Bank, Global Wind Atlas 4.0. <a href="https://globalwindatlas.info">globalwindatlas.info</a></li>
-      <li>NREL Turbine Archive, Bergey Excel 15 (15.6 kW, 9.6 m rotor). <a href="https://nrel.github.io/turbine-models/BergeyExcel15_15.6kW_9.6.html">nrel.github.io</a></li>
-      <li>World Bank / Solargis, Global Solar Atlas v2.13. <a href="https://globalsolaratlas.info">globalsolaratlas.info</a></li>
-      <li>NREL / U.S. DOE, Solar Photovoltaic System Cost Benchmarks, Q1 2024 (residential PV $3.15/Wdc; PV + 13.5 kWh storage $5.19/Wdc). <a href="https://nrel.gov/docs/fy25osti/92257.pdf">nrel.gov</a></li>
-      <li>PNNL, Distributed Wind Market Report 2024 Edition (small wind average installed cost $7,370/kW, 2023). <a href="https://www.pnnl.gov/sites/default/files/media/file/distributed-wind-market-report-2024-edition-presentation.pdf">pnnl.gov</a></li>
-      <li>USDA Farm Service Agency, Current FSA Loan Interest Rates (Nov. 1, 2026). <a href="https://fsa.usda.gov/tools/informational/rates/current-fsa-loan-interest-rates">fsa.usda.gov</a></li>
-      <li>ABE 436 lectures: Lecture 1 (Introduction to Renewable Energy Systems), Lectures 2–3 (solar angles), Lecture 7 (PV Efficiency and System Performance), Lecture 9 (Wind Energy Basics), Lecture 10 (Wind Energy Considerations), Lecture 16 (Economics of Heat Pump); Lab 5 wind turbine BEM analysis.</li>
-    </ol>
-  </div>
-</section>
+
 
 <footer><div class="wrap">ABE 436 Capstone Project · University of Illinois Urbana-Champaign · Fall 2026</div></footer>
 
