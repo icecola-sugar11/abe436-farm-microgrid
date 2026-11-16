@@ -1,0 +1,288 @@
+<title>Tolono Farm Microgrid</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one reading column with full-width banded sections; data tables and the seasonal chart break out wider */
+:root {
+  --bg: #f6f7f2;
+  --surface: #ffffff;
+  --fg: #1d2a22;
+  --muted: #5b6a60;
+  --line: #d9dfd5;
+  --field: #2f6b45;
+  --corn: #d9a521;
+  --sky: #3a78b5;
+  --band: #e9eee4;
+  --display: "Archivo", "Helvetica Neue", Arial, sans-serif;
+  --body: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #121a15; --surface: #18221c; --fg: #e6ece6; --muted: #9db0a3; --line: #2c3a31;
+    --field: #6fbf8a; --corn: #e8bd4a; --sky: #7fb2e5; --band: #17231b; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #121a15; --surface: #18221c; --fg: #e6ece6; --muted: #9db0a3; --line: #2c3a31;
+  --field: #6fbf8a; --corn: #e8bd4a; --sky: #7fb2e5; --band: #17231b; color-scheme: dark;
+}
+body { background: var(--bg); color: var(--fg); font-family: var(--body); font-size: 16px; line-height: 1.6; }
+.wrap { max-width: 980px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.prose { max-width: 68ch; }
+h1, h2, h3 { font-family: var(--display); line-height: 1.15; text-wrap: balance; margin: 0; }
+h2 { font-size: 1.75rem; font-weight: 800; }
+h3 { font-size: 1.1rem; font-weight: 700; }
+p { margin: 0; }
+a { color: var(--sky); }
+a:focus-visible, button:focus-visible { outline: 2px solid var(--corn); outline-offset: 2px; }
+.label { font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+section { padding-block: 56px; border-top: 1px solid var(--line); }
+section .wrap { display: grid; gap: 20px; }
+
+/* Header */
+header { padding-block: 48px 40px; background: var(--band); }
+header .wrap { display: grid; gap: 18px; }
+header h1 { font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 800; max-width: 22ch; }
+header h1 span { color: var(--field); }
+.coords { font-family: var(--mono); font-size: 0.9rem; color: var(--muted); }
+.team { display: flex; flex-wrap: wrap; gap: 8px; }
+.team span { font-size: 0.9rem; padding: 4px 12px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface); }
+nav { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 0.9rem; }
+nav a { color: var(--fg); text-decoration: none; border-bottom: 2px solid var(--corn); }
+
+/* Key figures */
+.figs { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); }
+.fig { background: var(--surface); padding: 16px; display: grid; gap: 4px; align-content: start; }
+.fig b { font-family: var(--display); font-size: 1.6rem; font-variant-numeric: tabular-nums; }
+.fig small { color: var(--muted); font-size: 0.8rem; line-height: 1.4; }
+
+/* Abstract */
+.abstract { display: grid; gap: 16px; }
+.abstract p b { color: var(--field); }
+
+/* Tables */
+.tbl { overflow-x: auto; border: 1px solid var(--line); background: var(--surface); }
+table { border-collapse: collapse; width: 100%; min-width: 620px; font-size: 0.9rem; }
+th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); font-weight: 500; }
+td.num { font-variant-numeric: tabular-nums; white-space: nowrap; }
+td.src { color: var(--muted); font-size: 0.82rem; }
+tr:last-child td { border-bottom: 0; }
+
+/* Chart */
+.chart { border: 1px solid var(--line); background: var(--surface); padding: 16px; overflow-x: auto; }
+.chart svg { display: block; width: 100%; min-width: 560px; height: auto; }
+.chart text { font-family: var(--mono); font-size: 11px; fill: var(--muted); }
+.legend { display: flex; flex-wrap: wrap; gap: 16px; font-size: 0.85rem; color: var(--muted); }
+.legend i { display: inline-block; width: 12px; height: 12px; margin-right: 6px; vertical-align: -1px; }
+
+/* Method steps */
+.steps { display: grid; gap: 0; counter-reset: step; }
+.step { display: grid; grid-template-columns: 56px minmax(0, 1fr); gap: 16px; padding-block: 22px; border-top: 1px solid var(--line); }
+.step:first-child { border-top: 0; }
+.step .n { font-family: var(--display); font-weight: 800; font-size: 1.6rem; color: var(--corn); line-height: 1; }
+.step .body { display: grid; gap: 10px; min-width: 0; }
+.step ul { margin: 0; padding-left: 20px; display: grid; gap: 4px; }
+.eq { font-family: var(--mono); font-size: 0.88rem; background: var(--band); padding: 8px 12px; overflow-x: auto; white-space: nowrap; }
+
+/* Outcomes */
+.outs { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
+.out { border-left: 3px solid var(--field); padding: 4px 0 4px 14px; display: grid; gap: 4px; }
+.out p { color: var(--muted); font-size: 0.92rem; }
+
+ol.refs { margin: 0; padding-left: 22px; display: grid; gap: 6px; font-size: 0.85rem; color: var(--muted); }
+ol.refs a { word-break: break-all; }
+footer { padding-block: 28px; border-top: 1px solid var(--line); font-size: 0.82rem; color: var(--muted); }
+
+@media (max-width: 520px) {
+  .step { grid-template-columns: 1fr; gap: 6px; }
+  section { padding-block: 40px; }
+}
+</style>
+
+<header>
+  <div class="wrap">
+    <p class="label">ABE 436 · Renewable Energy Systems · Capstone Project</p>
+    <h1>Hybrid Wind–Solar Microgrid with Battery Storage for a <span>1,000-Acre Corn–Soybean Farm</span> in Champaign County</h1>
+    <p class="coords">Site 40.00°N, 88.20°W · open farmland between Tolono and Philo, Illinois</p>
+    <div class="team" aria-label="Group teammates">
+      <span>Haozhe Ding</span><span>Yihang He</span><span>Guanfeng Ge</span>
+    </div>
+    <nav aria-label="Sections">
+      <a href="#abstract">Abstract</a><a href="#site">Site data</a><a href="#methodology">Methodology</a><a href="#outcomes">Expected outcomes</a><a href="#references">References</a>
+    </nav>
+  </div>
+</header>
+
+<section aria-label="Key figures" style="border-top:0">
+  <div class="wrap">
+    <div class="figs">
+      <div class="fig"><span class="label">Annual demand</span><b>39.8 MWh</b><small>Farm 31.5 + farmhouse 8.3</small></div>
+      <div class="fig"><span class="label">Harvest peak</span><b>31.7 kW</b><small>Grain dryer fans and augers, ~360 h/yr</small></div>
+      <div class="fig"><span class="label">PV yield</span><b>1,440 kWh/kWp</b><small>Capacity factor 16.4% at 34° tilt</small></div>
+      <div class="fig"><span class="label">Wind at 30 m</span><b>5.38 m/s</b><small>Weibull k 2.16, A 6.07 m/s</small></div>
+      <div class="fig"><span class="label">15.6 kW turbine</span><b>34.5 MWh</b><small>Gross per year, CF 25.2%</small></div>
+    </div>
+  </div>
+</section>
+
+<section id="abstract">
+  <div class="wrap">
+    <p class="label">Project abstract</p>
+    <h2>Abstract</h2>
+    <div class="abstract prose">
+      <p><b>Goals and objectives.</b> This project designs a grid-connected wind–solar–battery system for a specific case-study farm: a 1,000-acre grain farm in Champaign County, IL (40.00°N, 88.20°W) on a 50/50 corn–soybean rotation, with a farmhouse, machine shop, on-farm grain storage, and a high-temperature column grain dryer. At 2024 Illinois yields (217 bu/ac corn, 64 bu/ac soybeans; USDA NASS), the farm harvests 108,500 bu of corn and 32,000 bu of soybeans. Its annual electricity demand is 39.8 MWh, with a harvest-season peak driven by a 31.7 kW dryer load. The objectives are to size the PV array, small wind turbine, and battery to meet this load at the lowest levelized cost of energy (LCOE) and the highest renewable fraction.</p>
+      <p><b>Significance.</b> Farms have a strongly seasonal load that most building-scale renewable studies ignore. Measured data for central Illinois show that solar and wind are complementary: solar radiation peaks in summer, while wind is strongest in winter and spring. Quantifying how this complementarity reduces storage needs can help Midwest farmers lower energy costs, cut emissions, and keep critical loads such as grain aeration running during outages.</p>
+      <p><b>Methodology.</b> Site-specific solar (Global Solar Atlas, NREL SAM) and wind data (Global Wind Atlas, Weibull analysis, wind-shear correction) are combined with a manufacturer turbine power curve and an hourly energy balance to size a lithium iron phosphate battery. PV-only, wind-only, and hybrid configurations are compared, plus an off-grid case, followed by a 25-year economic analysis.</p>
+      <p><b>Expected outcomes.</b> An hourly load profile for the farm, recommended PV, wind, and battery capacities, an equipment list, calculated capacity factors and annual energy production, and the system's economic performance, including how much the hybrid design reduces the battery size needed.</p>
+    </div>
+  </div>
+</section>
+
+<section id="site">
+  <div class="wrap">
+    <p class="label">Case-study farm</p>
+    <h2>Site and baseline data</h2>
+    <p class="prose">Every value below comes from a published source or a calculation from one. Reference numbers in brackets match the list at the bottom of the page.</p>
+    <div class="tbl">
+      <table>
+        <thead><tr><th>Item</th><th>Value</th><th>Source / calculation</th></tr></thead>
+        <tbody>
+          <tr><td>Farm size and rotation</td><td class="num">1,000 ac (500 corn, 500 soybeans)</td><td class="src">Case-study definition</td></tr>
+          <tr><td>2024 Illinois yields</td><td class="num">Corn 217 bu/ac · soybeans 64 bu/ac</td><td class="src">USDA NASS [1]</td></tr>
+          <tr><td>Annual harvest</td><td class="num">108,500 bu corn · 32,000 bu soybeans</td><td class="src">Acres × yield</td></tr>
+          <tr><td>Farm business electricity</td><td class="num">31.5 MWh/yr</td><td class="src">FBFM utilities $5/ac (2023 actual) [2] ÷ 15.87 ¢/kWh [3]</td></tr>
+          <tr><td>Farmhouse electricity</td><td class="num">8.3 MWh/yr</td><td class="src">EIA Illinois average, 693 kWh/month (2024) [3]</td></tr>
+          <tr><td><b>Total annual demand</b></td><td class="num"><b>39.8 MWh/yr</b></td><td class="src">Sum of the two rows above</td></tr>
+          <tr><td>Grain dryer load</td><td class="num">31.7 kW · ~360 h/yr · 11.5 MWh/yr</td><td class="src">42.5 hp fans + augers at 300 bu/h [4]</td></tr>
+          <tr><td>Grain aeration fans</td><td class="num">2.1 kW</td><td class="src">0.02 hp per 1,000 bu at 1/10 cfm/bu [5]</td></tr>
+          <tr><td>Site solar resource</td><td class="num">GHI 1,500.6 kWh/m²/yr · GTI(34°) 1,738.8</td><td class="src">Global Solar Atlas v2.13 [10]</td></tr>
+          <tr><td>PV yield</td><td class="num">1,440.4 kWh/kWp/yr · CF 16.4%</td><td class="src">Global Solar Atlas PVOUT; CF = PVOUT ÷ 8,760 h</td></tr>
+          <tr><td>Site wind resource</td><td class="num">10 m 4.17 m/s · 50 m 6.05 m/s · 100 m 7.27 m/s</td><td class="src">Global Wind Atlas 4.0 [8]</td></tr>
+          <tr><td>Wind at 30 m hub</td><td class="num">5.38 m/s · k 2.16 · A 6.07 m/s</td><td class="src">Power law α = 0.231; k fitted from mean speed and power density</td></tr>
+          <tr><td>Wind turbine output</td><td class="num">Bergey Excel 15: 34.5 MWh/yr · CF 25.2%</td><td class="src">NREL power curve [9] × Weibull, gross</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 style="margin-top:12px">Solar and wind peak in different seasons</h3>
+    <div class="chart" role="img" aria-label="Monthly solar radiation on the array, Champaign, versus Illinois mean wind speed at 10 m. Solar is highest June to August; wind is highest January to April.">
+      <svg id="season" viewBox="0 0 640 260"></svg>
+    </div>
+    <div class="legend">
+      <span><i style="background:var(--corn)"></i>Solar on array, kWh/m²/day (PVWatts, Champaign [6])</span>
+      <span><i style="background:var(--sky)"></i>Wind speed at 10 m, mph (ISWS Illinois average, 1991–2000 [7])</span>
+    </div>
+    <p class="prose" style="font-size:0.85rem;color:var(--muted)">Notes: the FBFM utilities line is treated as farm electricity use. Dryer heat comes from propane and is not counted as electric load. Global Wind Atlas values are for the 10% windiest part of the area around the site, and turbine output is before availability and electrical losses.</p>
+  </div>
+</section>
+
+<section id="methodology">
+  <div class="wrap">
+    <p class="label">For review</p>
+    <h2>Methodology</h2>
+    <p class="prose">The work runs in six steps. Steps 2 and 3 can run in parallel once the farm load from step 1 is fixed; steps 4 to 6 depend on all three.</p>
+    <div class="steps">
+      <div class="step"><div class="n">1</div><div class="body">
+        <h3>Farm load profile</h3>
+        <p>Build an hourly (8,760 h) electricity profile from the components in the site table.</p>
+        <ul>
+          <li>Farmhouse: 8.3 MWh/yr shaped with a typical Illinois residential hourly load profile.</li>
+          <li>Grain dryer: 31.7 kW, run in daytime shifts across the harvest window (late September to early November) until 108,500 bu is dried.</li>
+          <li>Aeration fans (2.1 kW) during cooling cycles after harvest and in spring.</li>
+          <li>Shop, lighting and grain handling: the rest of the 31.5 MWh farm total, spread over working hours.</li>
+        </ul>
+      </div></div>
+      <div class="step"><div class="n">2</div><div class="body">
+        <h3>Solar PV modeling</h3>
+        <p>Model a fixed, south-facing array at the optimum 34° tilt in NREL SAM with hourly NSRDB weather data, and check annual output against the Global Solar Atlas yield of 1,440 kWh/kWp.</p>
+        <div class="eq">CF = E_annual / (P_rated × 8,760 h) = 1,440.4 / 8,760 = 16.4%</div>
+      </div></div>
+      <div class="step"><div class="n">3</div><div class="body">
+        <h3>Wind resource and turbine output</h3>
+        <p>Correct Global Wind Atlas speeds to hub height, fit a Weibull distribution, and integrate it against the turbine power curve. Use the BEM method from Lab 5 to check rotor C<sub>p</sub> at the site's low wind speeds.</p>
+        <div class="eq">v(h) = v(10 m) · (h / 10)^α,  α = ln(6.05 / 4.17) / ln(5) = 0.231</div>
+        <div class="eq">f(v) = (k/A)(v/A)^(k−1) · exp[−(v/A)^k]</div>
+        <div class="eq">AEP = 8,760 h · ∫ P(v) f(v) dv = 34.5 MWh/yr at 30 m (Bergey Excel 15)</div>
+        <p>Hub heights of 24, 30 and 37 m will be compared (30.7, 34.5 and 38.3 MWh/yr gross).</p>
+      </div></div>
+      <div class="step"><div class="n">4</div><div class="body">
+        <h3>Hourly energy balance and battery sizing</h3>
+        <p>For every hour, compute net load = demand − PV − wind. Surplus charges an LFP battery (90% usable depth of discharge); remaining surplus is exported, and deficits are covered by the battery and then the grid. Battery size is chosen to minimize grid imports per dollar spent, and to cover one day of critical load in the off-grid case.</p>
+      </div></div>
+      <div class="step"><div class="n">5</div><div class="body">
+        <h3>Configuration comparison</h3>
+        <p>Run the balance for PV-only (≈27.6 kWp to match annual demand), wind-only (one 15.6 kW turbine), and hybrid mixes, each with and without a battery, plus one off-grid case. Compare renewable fraction, grid imports, exports and storage required. Tools: HOMER Pro if available, otherwise SAM with Excel or Python.</p>
+      </div></div>
+      <div class="step"><div class="n">6</div><div class="body">
+        <h3>Economic analysis and sensitivity</h3>
+        <p>Over 25 years, calculate installed cost from NREL cost benchmarks and manufacturer quotes, O&amp;M, LCOE, NPV and simple payback, using Ameren Illinois rates. Test sensitivity to electricity price, equipment cost, wind speed and load.</p>
+        <div class="eq">LCOE = (CAPEX + Σ O&amp;M_t/(1+r)^t) / Σ E_t/(1+r)^t</div>
+      </div></div>
+    </div>
+  </div>
+</section>
+
+<section id="outcomes">
+  <div class="wrap">
+    <p class="label">Deliverables</p>
+    <h2>Expected outcomes</h2>
+    <div class="outs">
+      <div class="out"><h3>Load profile</h3><p>Hourly and monthly electricity demand for the farm, with the harvest peak.</p></div>
+      <div class="out"><h3>System sizing</h3><p>Recommended PV, wind and battery capacities for the best configuration.</p></div>
+      <div class="out"><h3>Equipment list</h3><p>Specific modules, turbine, inverter and batteries from manufacturer catalogs.</p></div>
+      <div class="out"><h3>Performance</h3><p>Capacity factors, annual energy production and renewable fraction.</p></div>
+      <div class="out"><h3>Economics</h3><p>LCOE, NPV and payback over 25 years, with sensitivity results.</p></div>
+      <div class="out"><h3>Storage savings</h3><p>How much wind–solar complementarity reduces the battery needed.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="references">
+  <div class="wrap">
+    <h2>References</h2>
+    <ol class="refs">
+      <li>USDA NASS, 2024 Illinois corn and soybean yields (farmdoc daily, Apr. 2025). <a href="https://farmdocdaily.illinois.edu/2025/04/2024-corn-and-soybean-yields.html">farmdocdaily.illinois.edu</a></li>
+      <li>farmdoc, Actual and Projected Costs, Central Illinois High-Productivity Farmland (2025). <a href="https://farmdoc.illinois.edu/assets/management/crop-budgets/actual_projected_costs_2025_v2.pdf">farmdoc.illinois.edu</a></li>
+      <li>U.S. EIA, Electric Sales, Revenue, and Average Price, Table 5A (2024). <a href="https://www.eia.gov/electricity/sales_revenue_price/pdf/table_5a.pdf">eia.gov</a></li>
+      <li>Purdue Extension, Grain Quality Fact Sheet #3 (GQ-3). <a href="https://www.extension.purdue.edu/extmedia/GQ/GQ-3.pdf">extension.purdue.edu</a></li>
+      <li>University of Georgia Extension Bulletin 712, Aerating Grain in Storage. <a href="https://www.nationalfarmers.com/agprofit/downloads/Aerating%20Grain%20In%20Storage.pdf">nationalfarmers.com</a></li>
+      <li>NREL PVWatts report, 129.5 kW array, Champaign, IL (UIUC iCAP). <a href="https://icap.sustainability.illinois.edu/files/projectupdate/10900/KAM%20bldg%20220%20solar%20array%20130kW%20PVWatts%20Calculator.pdf">icap.sustainability.illinois.edu</a></li>
+      <li>Illinois State Water Survey, Wind Climatology of Illinois. <a href="https://climate.isws.illinois.edu/statecli/wind/wind.htm">climate.isws.illinois.edu</a></li>
+      <li>DTU / World Bank, Global Wind Atlas 4.0. <a href="https://globalwindatlas.info">globalwindatlas.info</a></li>
+      <li>NREL Turbine Archive, Bergey Excel 15 (15.6 kW, 9.6 m rotor). <a href="https://nrel.github.io/turbine-models/BergeyExcel15_15.6kW_9.6.html">nrel.github.io</a></li>
+      <li>World Bank / Solargis, Global Solar Atlas v2.13. <a href="https://globalsolaratlas.info">globalsolaratlas.info</a></li>
+    </ol>
+  </div>
+</section>
+
+<footer><div class="wrap">ABE 436 Capstone Project · University of Illinois Urbana-Champaign · Fall 2026</div></footer>
+
+<script>
+(function () {
+  var solar = [2.99, 3.86, 4.45, 5.29, 5.75, 6.30, 6.18, 6.21, 5.75, 4.58, 3.54, 2.93];
+  var wind = [8.7, 8.6, 9.1, 9.2, 7.6, 6.3, 5.6, 5.0, 5.6, 7.0, 8.4, 7.9];
+  var months = ["J","F","M","A","M","J","J","A","S","O","N","D"];
+  var svg = document.getElementById("season"), NS = "http://www.w3.org/2000/svg";
+  var L = 48, R = 592, T = 16, B = 220, W = R - L, H = B - T, bw = W / 12;
+  function el(n, a, txt) { var e = document.createElementNS(NS, n); for (var k in a) e.setAttribute(k, a[k]); if (txt != null) e.textContent = txt; svg.appendChild(e); return e; }
+  var ys = function (v) { return B - v / 7 * H; };   // solar axis 0–7
+  var yw = function (v) { return B - v / 10 * H; };  // wind axis 0–10
+  for (var t = 0; t <= 7; t++) {
+    el("line", { x1: L, x2: R, y1: ys(t), y2: ys(t), stroke: "var(--line)", "stroke-width": 1 });
+    el("text", { x: L - 8, y: ys(t) + 4, "text-anchor": "end" }, t);
+  }
+  for (var w = 0; w <= 10; w += 2) el("text", { x: R + 8, y: yw(w) + 4 }, w);
+  solar.forEach(function (v, i) {
+    el("rect", { x: L + i * bw + bw * 0.18, y: ys(v), width: bw * 0.64, height: B - ys(v), fill: "var(--corn)", rx: 2 });
+    el("text", { x: L + i * bw + bw / 2, y: B + 16, "text-anchor": "middle" }, months[i]);
+  });
+  var d = wind.map(function (v, i) { return (i ? "L" : "M") + (L + i * bw + bw / 2) + " " + yw(v); }).join(" ");
+  el("path", { d: d, fill: "none", stroke: "var(--sky)", "stroke-width": 2.5 });
+  wind.forEach(function (v, i) { el("circle", { cx: L + i * bw + bw / 2, cy: yw(v), r: 3.5, fill: "var(--sky)" }); });
+  el("text", { x: L - 8, y: B + 34, "text-anchor": "end" }, "kWh/m²/d");
+  el("text", { x: R + 8, y: B + 34 }, "mph");
+})();
+</script>
