@@ -1,5 +1,9 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Tolono Farm Microgrid</title>
-<meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <style>
@@ -92,6 +96,23 @@ tr:last-child td { border-bottom: 0; }
 .out { border-left: 3px solid var(--field); padding: 4px 0 4px 14px; display: grid; gap: 4px; }
 .out p { color: var(--muted); font-size: 0.92rem; }
 
+
+/* Calculations */
+.math { overflow-x: auto; overflow-y: hidden; padding: 6px 4px; font-size: 1.02rem; }
+.math mjx-container[display="true"] { margin: 0.4em 0 !important; }
+.math svg { max-width: none; }
+
+.howto { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
+.src-card { border: 1px solid var(--line); background: var(--surface); padding: 16px; display: grid; gap: 8px; align-content: start; min-width: 0; }
+.src-card ol { margin: 0; padding-left: 20px; display: grid; gap: 4px; font-size: 0.9rem; }
+.src-card .label { color: var(--field); }
+.calc { display: grid; gap: 10px; padding-block: 20px; border-top: 1px solid var(--line); min-width: 0; }
+.calc:first-of-type { border-top: 0; }
+.calc .eq { white-space: pre; line-height: 1.7; }
+.calc p { max-width: 68ch; }
+.result { font-weight: 600; color: var(--field); }
+.note { font-size: 0.85rem; color: var(--muted); max-width: 68ch; }
+
 ol.refs { margin: 0; padding-left: 22px; display: grid; gap: 6px; font-size: 0.85rem; color: var(--muted); }
 ol.refs a { word-break: break-all; }
 footer { padding-block: 28px; border-top: 1px solid var(--line); font-size: 0.82rem; color: var(--muted); }
@@ -101,6 +122,14 @@ footer { padding-block: 28px; border-top: 1px solid var(--line); font-size: 0.82
   section { padding-block: 40px; }
 }
 </style>
+<script>
+window.MathJax = { tex: { inlineMath: [["\\(", "\\)"]], displayMath: [["\\[", "\\]"]] }, svg: { fontCache: "global" }, options: { enableMenu: false } };
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg-full.min.js"></script>
+<style>*,*::before,*::after{box-sizing:border-box}body{margin:0}img{max-width:100%}</style>
+</head>
+<body>
+
 
 <header>
   <div class="wrap">
@@ -111,7 +140,7 @@ footer { padding-block: 28px; border-top: 1px solid var(--line); font-size: 0.82
       <span>Haozhe Ding</span><span>Yihang He</span><span>Guanfeng Ge</span>
     </div>
     <nav aria-label="Sections">
-      <a href="#abstract">Abstract</a><a href="#site">Site data</a><a href="#methodology">Methodology</a><a href="#outcomes">Expected outcomes</a><a href="#references">References</a>
+      <a href="#abstract">Abstract</a><a href="#site">Site data</a><a href="#data">Data &amp; calculations</a><a href="#methodology">Methodology</a><a href="#outcomes">Expected outcomes</a><a href="#references">References</a>
     </nav>
   </div>
 </header>
@@ -179,6 +208,186 @@ footer { padding-block: 28px; border-top: 1px solid var(--line); font-size: 0.82
   </div>
 </section>
 
+
+<section id="data">
+  <div class="wrap">
+    <p class="label">How the numbers were obtained</p>
+    <h2>Data sources and calculations</h2>
+    <p class="prose">This section shows where each input came from, which lecture method we used, and every calculation step behind the numbers on this page.</p>
+
+    <h3>Where the data came from</h3>
+    <div class="howto">
+      <div class="src-card"><span class="label">Wind · Global Wind Atlas 4.0 [8]</span>
+        <ol>
+          <li>Opened globalwindatlas.info and searched the site coordinates 40.00, −88.20.</li>
+          <li>Placed a point marker on open farmland between Tolono and Philo.</li>
+          <li>Switched the height to 10 m, 50 m and 100 m and recorded mean wind speed and mean power density at each.</li>
+          <li>Read the wind roses: prevailing wind is from the south and south-southwest.</li>
+        </ol></div>
+      <div class="src-card"><span class="label">Solar · Global Solar Atlas v2.13 [10]</span>
+        <ol>
+          <li>Opened globalsolaratlas.info and searched 40.00, −88.20.</li>
+          <li>Recorded PVOUT (specific PV output), GHI, DNI, DIF, optimum tilt (OPTA) and GTI at that tilt, all per year.</li>
+          <li>Monthly seasonality taken from a published NREL PVWatts report for Champaign, about 10 km north [6].</li>
+        </ol></div>
+      <div class="src-card"><span class="label">Farm load · extension and federal data [1]–[5]</span>
+        <ol>
+          <li>Yields: USDA NASS 2024 Illinois averages [1].</li>
+          <li>Farm utility cost per acre: farmdoc FBFM table for central Illinois high-productivity farmland [2].</li>
+          <li>Electricity price and household use: EIA Table 5A, Illinois 2024 [3].</li>
+          <li>Dryer power and capacity: Purdue Extension GQ-3 example dryer [4]; aeration fan power: UGA Bulletin 712 [5].</li>
+        </ol></div>
+      <div class="src-card"><span class="label">Equipment and cost · [9], [11]–[13]</span>
+        <ol>
+          <li>Turbine power curve: Bergey Excel 15 from the NREL Turbine Archive [9].</li>
+          <li>PV and battery cost: NREL/DOE Q1 2024 solar cost benchmarks [11].</li>
+          <li>Small wind cost: PNNL Distributed Wind Market Report 2024 [12].</li>
+          <li>Loan rate: USDA FSA direct farm ownership rate, November 2026 [13].</li>
+        </ol></div>
+      <div class="src-card"><span class="label">Course methods · ABE 436 lectures [14]</span>
+        <ol>
+          <li>Lecture 1: unit conversions (1 hp = 746 W).</li>
+          <li>Lectures 2–3: tilt angle rule of thumb (tilt ≈ latitude for year-round output).</li>
+          <li>Lecture 7: PV capacity factor CF = annual energy / (P<sub>R</sub> × 8,760 h).</li>
+          <li>Lecture 9: P = ½ρAv³, increase of wind speed with height (power law), Rayleigh distribution.</li>
+          <li>Lecture 10: wind capacity factor and the approximation CF ≈ 0.087V̄ − P<sub>R</sub>/D².</li>
+          <li>Lecture 16: loan annual payment A = P·i(1+i)<sup>n</sup>/((1+i)<sup>n</sup> − 1), net savings and payback.</li>
+          <li>Lab 5: BEM rotor analysis in QBlade.</li>
+        </ol></div>
+    </div>
+
+    <h3 style="margin-top:16px">Calculation steps</h3>
+    <div>
+      <div class="calc">
+        <h3>1. Annual electricity demand</h3>
+        <div class="math">\[
+\begin{aligned}
+E_{\text{farm}} &= \frac{\$5/\text{acre} \times 1{,}000\ \text{acre}}{\$0.1587/\text{kWh}} = 31{,}506\ \text{kWh/yr}\\[4pt]
+E_{\text{house}} &= 693\ \text{kWh/month} \times 12 = 8{,}316\ \text{kWh/yr}\\[4pt]
+E_{\text{total}} &= 31{,}506 + 8{,}316 = 39{,}822\ \text{kWh/yr} \approx \mathbf{39.8\ MWh/yr}
+\end{aligned}
+\]</div>
+        <p class="note">Assumes the FBFM utilities cost is all electricity, priced at the Illinois 2024 residential average.</p>
+      </div>
+      <div class="calc">
+        <h3>2. Harvest load: grain dryer and aeration</h3>
+        <div class="math">\[
+\begin{aligned}
+\text{Corn} &= 500\ \text{acre} \times 217\ \text{bu/acre} = 108{,}500\ \text{bu}\\
+\text{Soybeans} &= 500\ \text{acre} \times 64\ \text{bu/acre} = 32{,}000\ \text{bu}\\[6pt]
+P_{\text{dryer}} &= 42.5\ \text{hp} \times 0.746\ \tfrac{\text{kW}}{\text{hp}} = \mathbf{31.7\ kW} \qquad \text{(Lecture 1)}\\[4pt]
+t_{\text{dryer}} &= \frac{108{,}500\ \text{bu}}{300\ \text{bu/h}} = 362\ \text{h}\\[4pt]
+E_{\text{dryer}} &= 31.7\ \text{kW} \times 362\ \text{h} = 11{,}467\ \text{kWh/yr} \quad (0.106\ \text{kWh/bu})\\[4pt]
+P_{\text{aeration}} &= 140{,}500\ \text{bu} \times \frac{0.02\ \text{hp}}{1{,}000\ \text{bu}} \times 0.746 = 2.1\ \text{kW}
+\end{aligned}
+\]</div>
+      </div>
+      <div class="calc">
+        <h3>3. Solar capacity factor and PV size</h3>
+        <div class="math">\[
+\begin{aligned}
+CF_{PV} &= \frac{E_{\text{annual}}}{P_R \times 8{,}760\ \text{h}} = \frac{1{,}440.4}{8{,}760} = \mathbf{16.4\%} \qquad \text{(Lecture 7)}\\[6pt]
+P_{PV} &= \frac{E_{\text{total}}}{PVOUT} = \frac{39{,}822\ \text{kWh}}{1{,}440.4\ \text{kWh/kWp}} = \mathbf{27.6\ kWp}
+\end{aligned}
+\]</div>
+        <p class="note">Tilt check: the Lectures 2–3 rule gives tilt ≈ latitude = 40°; the Global Solar Atlas optimum for this site is 34°, which we use.</p>
+      </div>
+      <div class="calc">
+        <h3>4. Wind speed at hub height (wind shear)</h3>
+        <div class="math">\[
+\begin{aligned}
+\frac{V}{V_0} &= \left(\frac{H}{H_0}\right)^{\alpha} \qquad \text{(Lecture 9)}\\[6pt]
+\alpha &= \frac{\ln(V_{50}/V_{10})}{\ln(50/10)} = \frac{\ln(6.05/4.17)}{\ln 5} = 0.231\\[6pt]
+V_{30} &= 4.17 \times \left(\frac{30}{10}\right)^{0.231} = \mathbf{5.38\ m/s}
+\end{aligned}
+\]</div>
+        <p class="note">Check: the 50–100 m pair gives α = 0.265. The 10–50 m pair is used because the turbine sits at 30 m.</p>
+      </div>
+      <div class="calc">
+        <h3>5. Weibull parameters from the atlas data</h3>
+        <div class="math">\[
+\bar{v} = A\,\Gamma\!\left(1 + \frac{1}{k}\right), \qquad
+\frac{P}{A_{\text{swept}}} = \frac{1}{2}\rho A^{3}\,\Gamma\!\left(1 + \frac{3}{k}\right), \qquad \rho = 1.225\ \text{kg/m}^3
+\]</div>
+        <p>Solving both equations at each height:</p>
+        <div class="tbl"><table style="min-width:480px">
+          <thead><tr><th>Height</th><th>Mean speed</th><th>Power density</th><th>k</th><th>A</th></tr></thead>
+          <tbody>
+            <tr><td>10 m</td><td class="num">4.17 m/s</td><td class="num">86 W/m²</td><td class="num">1.97</td><td class="num">4.70 m/s</td></tr>
+            <tr><td>50 m</td><td class="num">6.05 m/s</td><td class="num">224 W/m²</td><td class="num">2.35</td><td class="num">6.83 m/s</td></tr>
+            <tr><td><b>30 m (hub)</b></td><td class="num">5.38 m/s</td><td class="num">–</td><td class="num"><b>2.16</b> (interpolated)</td><td class="num"><b>6.07 m/s</b></td></tr>
+          </tbody>
+        </table></div>
+        <div class="math">\[
+A_{30} = \frac{\bar{v}_{30}}{\Gamma(1 + 1/k)} = \frac{5.38}{\Gamma(1 + 1/2.16)} = 6.07\ \text{m/s}
+\]</div>
+        <p class="note">k ≈ 2 at 10 m matches the Rayleigh assumption used in lecture.</p>
+      </div>
+      <div class="calc">
+        <h3>6. Wind turbine energy and capacity factor</h3>
+        <div class="math">\[
+\begin{aligned}
+f(v) &= \frac{k}{A}\left(\frac{v}{A}\right)^{k-1} e^{-(v/A)^{k}}\\[6pt]
+AEP &= 8{,}760\ \text{h} \int_{0}^{\infty} P(v)\, f(v)\, dv = \mathbf{34{,}495\ kWh/yr} \quad \text{(Bergey Excel 15)}\\[6pt]
+CF &= \frac{34{,}495}{15.6\ \text{kW} \times 8{,}760\ \text{h}} = \mathbf{25.2\%} \qquad \text{(Lecture 10)}
+\end{aligned}
+\]</div>
+        <p>Cross-checks with the lecture methods:</p>
+        <div class="math">\[
+\begin{aligned}
+\text{Rayleigh, 1 m/s bins (Lecture 9):}\quad & AEP = 35.5\ \text{MWh/yr},\quad CF = 26.0\%\\[6pt]
+\text{Approximation (Lecture 10):}\quad & CF \approx 0.087\,\bar{V} - \frac{P_R}{D^2} = 0.087(5.38) - \frac{15.6}{9.6^2} = 29.9\%
+\end{aligned}
+\]</div>
+        <p class="note">The Weibull result is used. The quick approximation is higher because it ignores this turbine's power curve.</p>
+      </div>
+      <div class="calc">
+        <h3>7. Loan payment and cost of energy (preliminary)</h3>
+        <div class="math">\[
+A = P\,\frac{i(1+i)^{n}}{(1+i)^{n} - 1} \qquad \text{(Lecture 16)}
+\]</div>
+        <p>With i = 6.25% (USDA FSA direct farm ownership rate, Nov. 2026) and n = 20 years:</p>
+        <div class="math">\[
+CRF = \frac{0.0625\,(1.0625)^{20}}{(1.0625)^{20} - 1} = 0.0890
+\]</div>
+        <p><b>PV-only</b></p>
+        <div class="math">\[
+\begin{aligned}
+P &= 27.6\ \text{kW} \times \$3{,}150/\text{kW} = \$86{,}940\\
+A &= \$86{,}940 \times 0.0890 = \$7{,}734/\text{yr}\\
+\text{COE} &= \frac{\$7{,}734/\text{yr}}{39{,}822\ \text{kWh/yr}} = \mathbf{19.4\ \text{¢/kWh}}
+\end{aligned}
+\]</div>
+        <p><b>Wind</b></p>
+        <div class="math">\[
+\begin{aligned}
+P &= 15.6\ \text{kW} \times \$7{,}370/\text{kW} = \$114{,}972\\
+A &= \$114{,}972 \times 0.0890 = \$10{,}228/\text{yr}\\
+\text{COE} &= \frac{\$10{,}228/\text{yr}}{34{,}495\ \text{kWh/yr}} = \mathbf{29.7\ \text{¢/kWh}}
+\end{aligned}
+\]</div>
+        <p><b>Battery</b> (about one day of farmhouse use: 8,316 ÷ 365 = 22.8 kWh, so 25 kWh)</p>
+        <div class="math">\[
+\begin{aligned}
+c_{\text{batt}} &= \frac{(\$5.19 - \$3.15)/\text{W} \times 8{,}000\ \text{W}}{13.5\ \text{kWh}} = \$1{,}209/\text{kWh}\\
+P_{\text{batt}} &= 25\ \text{kWh} \times \$1{,}209/\text{kWh} \approx \$30{,}200
+\end{aligned}
+\]</div>
+        <p>Simple payback against the grid price of 15.87 ¢/kWh (Lecture 16):</p>
+        <div class="math">\[
+\begin{aligned}
+\text{Payback} &= \frac{\text{installed cost}}{\text{annual bill savings}}\\[6pt]
+\text{PV-only:}\ & \frac{\$86{,}940}{39{,}822 \times \$0.1587} = \frac{\$86{,}940}{\$6{,}320/\text{yr}} = \mathbf{13.8\ years}\\[6pt]
+\text{Wind:}\ & \frac{\$114{,}972}{34{,}495 \times \$0.1587} = \frac{\$114{,}972}{\$5{,}474/\text{yr}} = \mathbf{21.0\ years}
+\end{aligned}
+\]</div>
+        <p class="note">These figures include loan payments only. O&amp;M, equity return, tax credits and grants (such as USDA REAP) will be added in the final economic analysis, and the hybrid mix will be optimized in steps 4–6 of the methodology.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
 <section id="methodology">
   <div class="wrap">
     <p class="label">For review</p>
@@ -198,14 +407,14 @@ footer { padding-block: 28px; border-top: 1px solid var(--line); font-size: 0.82
       <div class="step"><div class="n">2</div><div class="body">
         <h3>Solar PV modeling</h3>
         <p>Model a fixed, south-facing array at the optimum 34° tilt in NREL SAM with hourly NSRDB weather data, and check annual output against the Global Solar Atlas yield of 1,440 kWh/kWp.</p>
-        <div class="eq">CF = E_annual / (P_rated × 8,760 h) = 1,440.4 / 8,760 = 16.4%</div>
+        <div class="math">\[ CF = \frac{E_{\text{annual}}}{P_R \times 8{,}760\ \text{h}} = \frac{1{,}440.4}{8{,}760} = 16.4\% \]</div>
       </div></div>
       <div class="step"><div class="n">3</div><div class="body">
         <h3>Wind resource and turbine output</h3>
         <p>Correct Global Wind Atlas speeds to hub height, fit a Weibull distribution, and integrate it against the turbine power curve. Use the BEM method from Lab 5 to check rotor C<sub>p</sub> at the site's low wind speeds.</p>
-        <div class="eq">v(h) = v(10 m) · (h / 10)^α,  α = ln(6.05 / 4.17) / ln(5) = 0.231</div>
-        <div class="eq">f(v) = (k/A)(v/A)^(k−1) · exp[−(v/A)^k]</div>
-        <div class="eq">AEP = 8,760 h · ∫ P(v) f(v) dv = 34.5 MWh/yr at 30 m (Bergey Excel 15)</div>
+        <div class="math">\[ v(H) = v_{10}\left(\frac{H}{10}\right)^{\alpha}, \qquad \alpha = \frac{\ln(6.05/4.17)}{\ln 5} = 0.231 \]</div>
+        <div class="math">\[ f(v) = \frac{k}{A}\left(\frac{v}{A}\right)^{k-1} e^{-(v/A)^{k}} \]</div>
+        <div class="math">\[ AEP = 8{,}760\ \text{h} \int_0^{\infty} P(v)\,f(v)\,dv = 34.5\ \text{MWh/yr at 30 m} \]</div>
         <p>Hub heights of 24, 30 and 37 m will be compared (30.7, 34.5 and 38.3 MWh/yr gross).</p>
       </div></div>
       <div class="step"><div class="n">4</div><div class="body">
@@ -219,7 +428,7 @@ footer { padding-block: 28px; border-top: 1px solid var(--line); font-size: 0.82
       <div class="step"><div class="n">6</div><div class="body">
         <h3>Economic analysis and sensitivity</h3>
         <p>Over 25 years, calculate installed cost from NREL cost benchmarks and manufacturer quotes, O&amp;M, LCOE, NPV and simple payback, using Ameren Illinois rates. Test sensitivity to electricity price, equipment cost, wind speed and load.</p>
-        <div class="eq">LCOE = (CAPEX + Σ O&amp;M_t/(1+r)^t) / Σ E_t/(1+r)^t</div>
+        <div class="math">\[ LCOE = \frac{CAPEX + \sum_{t=1}^{25} \dfrac{O\&M_t}{(1+r)^t}}{\sum_{t=1}^{25} \dfrac{E_t}{(1+r)^t}} \]</div>
       </div></div>
     </div>
   </div>
@@ -254,6 +463,10 @@ footer { padding-block: 28px; border-top: 1px solid var(--line); font-size: 0.82
       <li>DTU / World Bank, Global Wind Atlas 4.0. <a href="https://globalwindatlas.info">globalwindatlas.info</a></li>
       <li>NREL Turbine Archive, Bergey Excel 15 (15.6 kW, 9.6 m rotor). <a href="https://nrel.github.io/turbine-models/BergeyExcel15_15.6kW_9.6.html">nrel.github.io</a></li>
       <li>World Bank / Solargis, Global Solar Atlas v2.13. <a href="https://globalsolaratlas.info">globalsolaratlas.info</a></li>
+      <li>NREL / U.S. DOE, Solar Photovoltaic System Cost Benchmarks, Q1 2024 (residential PV $3.15/Wdc; PV + 13.5 kWh storage $5.19/Wdc). <a href="https://nrel.gov/docs/fy25osti/92257.pdf">nrel.gov</a></li>
+      <li>PNNL, Distributed Wind Market Report 2024 Edition (small wind average installed cost $7,370/kW, 2023). <a href="https://www.pnnl.gov/sites/default/files/media/file/distributed-wind-market-report-2024-edition-presentation.pdf">pnnl.gov</a></li>
+      <li>USDA Farm Service Agency, Current FSA Loan Interest Rates (Nov. 1, 2026). <a href="https://fsa.usda.gov/tools/informational/rates/current-fsa-loan-interest-rates">fsa.usda.gov</a></li>
+      <li>ABE 436 lectures: Lecture 1 (Introduction to Renewable Energy Systems), Lectures 2–3 (solar angles), Lecture 7 (PV Efficiency and System Performance), Lecture 9 (Wind Energy Basics), Lecture 10 (Wind Energy Considerations), Lecture 16 (Economics of Heat Pump); Lab 5 wind turbine BEM analysis.</li>
     </ol>
   </div>
 </section>
@@ -286,3 +499,6 @@ footer { padding-block: 28px; border-top: 1px solid var(--line); font-size: 0.82
   el("text", { x: R + 8, y: B + 34 }, "mph");
 })();
 </script>
+
+</body>
+</html>
